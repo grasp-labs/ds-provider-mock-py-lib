@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ds.resource.dataset.mock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "version",
+    "settings",
+    "linked_service"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "version": {
+      "type": "string"
+    },
+    "serializer": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "deserializer": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "linked_service": {
+      "type": "object"
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "sequence",
+                  "constant",
+                  "text",
+                  "random_int",
+                  "random_float",
+                  "bool",
+                  "timestamp"
+                ],
+                "default": "text"
+              },
+              "value": true,
+              "prefix": {
+                "type": "string",
+                "default": ""
+              },
+              "low": {
+                "type": "integer",
+                "default": 0
+              },
+              "high": {
+                "type": "integer",
+                "default": 1000
+              },
+              "null_every": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1,
+                "default": null
+              }
+            }
+          }
+        },
+        "row_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 100
+        },
+        "page_size": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "default": null
+        },
+        "seed": {
+          "type": "integer",
+          "default": 42
+        },
+        "page_delay_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "raise_on_page": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "default": null
+        },
+        "raise_as": {
+          "type": "string",
+          "enum": [
+            "read_error",
+            "connection_error"
+          ],
+          "default": "read_error"
+        },
+        "raise_error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "status_code": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        "op_column": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "modified_at_column": {
+          "type": "string",
+          "default": "_modified_at"
+        },
+        "incremental_insert_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "incremental_update_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "incremental_noop_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        }
+      }
+    }
+  }
+}

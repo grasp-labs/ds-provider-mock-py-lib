@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ds.resource.linked-service.mock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "version",
+    "settings"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "version": {
+      "type": "string"
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "connect_behaviour": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "connection_error",
+            "authentication_error",
+            "authorization_error"
+          ],
+          "default": "ok"
+        },
+        "connect_delay_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "connect_fail_first_n": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "test_connection_ok": {
+          "type": "boolean",
+          "default": true
+        },
+        "test_connection_message": {
+          "type": "string",
+          "default": ""
+        },
+        "latency_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "fail_on_call": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "default": null
+        },
+        "drop_after_calls": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "default": null
+        },
+        "connect_error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "status_code": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        "request_error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "status_code": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        "drop_error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "status_code": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

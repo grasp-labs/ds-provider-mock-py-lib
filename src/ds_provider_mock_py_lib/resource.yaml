@@ -1,0 +1,17 @@
+package-name: mock
+name: mock
+description: Mock provider for DS pipeline e2e testing
+
+linked_service:
+  - name: Mock
+    type: ds.resource.linked-service.mock
+    version: 1.0.0
+    description: In-memory linked service with tunable connect, health, and request failures
+    class_name: ds_provider_mock_py_lib.linked_service.mock.MockLinkedService
+
+dataset:
+  - name: Mock
+    type: ds.resource.dataset.mock
+    version: 1.0.0
+    description: Read-only synthetic dataset with configurable columns, CDC batches, pagination, and checkpointing
+    class_name: ds_provider_mock_py_lib.dataset.mock.MockDataset
