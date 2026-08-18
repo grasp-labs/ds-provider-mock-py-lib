@@ -21,7 +21,7 @@ def test_raise_on_page_read_error_saves_pagination() -> None:
     dataset = create_dataset(row_count=30, page_size=10, raise_on_page=2)
     with pytest.raises(ReadError) as exc_info:
         dataset.read()
-    assert exc_info.value.code == "mock_read_failure"
+    assert exc_info.value.code == "DS_DATASET_READ_ERROR"
     assert len(dataset.output.index) == 10
     assert dataset.checkpoint["pagination"]["value"] == "0:2"
     assert dataset.checkpoint["incremental"]["value"] is None

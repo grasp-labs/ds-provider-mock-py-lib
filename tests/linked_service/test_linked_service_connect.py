@@ -111,7 +111,7 @@ def test_request_drop_after_calls() -> None:
     linked_service.connection.request(1)
     with pytest.raises(MockBackendError) as exc_info:
         linked_service.connection.request(2)
-    assert exc_info.value.code == "connection_dropped"
+    assert exc_info.value.code == "DS_LINKED_SERVICE_CONNECTION_ERROR"
 
 
 def test_request_on_closed_connection() -> None:
@@ -121,7 +121,7 @@ def test_request_on_closed_connection() -> None:
     linked_service.connection.close()
     with pytest.raises(MockBackendError) as exc_info:
         linked_service.connection.request(1)
-    assert exc_info.value.code == "connection_closed"
+    assert exc_info.value.code == "DS_LINKED_SERVICE_CONNECTION_ERROR"
 
 
 @patch("ds_provider_mock_py_lib.linked_service.mock.time.sleep")
