@@ -233,6 +233,16 @@ def _cell(settings: MockDatasetSettings, column: MockColumn, row_id: int, versio
         return int(rng.randrange(column.low, column.high))
     if column.kind == ColumnKind.RANDOM_FLOAT:
         return float(rng.uniform(column.low, column.high))
+    if column.kind == ColumnKind.ENUM:
+        members = column.value
+        if not isinstance(members, list) or not members:
+            raise ReadError(
+                message=f"column {column.name!r} kind {column.kind!r} requires a non-empty list in value",
+                code="invalid_settings",
+                status_code=400,
+                details={"column": column.name},
+            )
+        return rng.choice(members)
     raise ReadError(
         message=f"unknown column kind {column.kind!r}",
         code="invalid_settings",

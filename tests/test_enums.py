@@ -39,6 +39,7 @@ def test_supporting_enum_values_are_lowercase() -> None:
     """It uses lowercase identifier values."""
     assert ConnectBehaviour.OK == "ok"
     assert ColumnKind.SEQUENCE == "sequence"
+    assert ColumnKind.ENUM == "enum"
     assert RowOp.INSERT == "insert"
     assert RaiseAs.READ_ERROR == "read_error"
     assert RaiseAs.CONNECTION_ERROR == "connection_error"

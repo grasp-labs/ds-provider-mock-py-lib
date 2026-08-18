@@ -44,6 +44,11 @@ def main() -> None:
                 MockColumn(name="id", kind=ColumnKind.SEQUENCE),
                 MockColumn(name="name", kind=ColumnKind.TEXT, prefix="row_"),
                 MockColumn(name="amount", kind=ColumnKind.RANDOM_FLOAT, low=0, high=500),
+                MockColumn(
+                    name="status",
+                    kind=ColumnKind.ENUM,
+                    value=["active", "inactive"],
+                ),
             ],
             row_count=200,
             page_size=10,
