@@ -8,7 +8,10 @@ Example:
     >>> from ds_provider_mock_py_lib.dataset.settings import MockColumn, MockDatasetSettings
     >>> from ds_provider_mock_py_lib.enums import ColumnKind
     >>> settings = MockDatasetSettings(
-    ...     columns=[MockColumn(name="id", kind=ColumnKind.SEQUENCE)],
+    ...     columns=[
+    ...         MockColumn(name="id", kind=ColumnKind.SEQUENCE),
+    ...         MockColumn(name="status", kind=ColumnKind.ENUM, value=["active", "deactive"]),
+    ...     ],
     ...     row_count=10,
     ... )
     >>> settings.row_count
@@ -38,7 +41,12 @@ class MockColumn(Serializable):
     """Value generator used for this column."""
 
     value: Any = None
-    """Constant value when ``kind`` is ``constant``."""
+    """
+    Payload for ``constant`` and ``enum``.
+
+    A scalar is emitted on every row when ``kind`` is ``constant``. A
+    non-empty list is sampled when ``kind`` is ``enum``.
+    """
 
     prefix: str = ""
     """Prefix used when ``kind`` is ``text``."""

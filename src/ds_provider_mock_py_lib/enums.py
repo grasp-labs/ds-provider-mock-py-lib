@@ -42,6 +42,7 @@ class ColumnKind(StrEnum):
     RANDOM_FLOAT = "random_float"
     BOOL = "bool"
     TIMESTAMP = "timestamp"
+    ENUM = "enum"
 
 
 class RowOp(StrEnum):

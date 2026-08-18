@@ -67,7 +67,8 @@
                   "random_int",
                   "random_float",
                   "bool",
-                  "timestamp"
+                  "timestamp",
+                  "enum"
                 ],
                 "default": "text"
               },

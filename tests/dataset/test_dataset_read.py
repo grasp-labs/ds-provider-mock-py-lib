@@ -58,6 +58,7 @@ def test_read_is_deterministic() -> None:
             MockColumn(name="flag", kind=ColumnKind.BOOL),
             MockColumn(name="ts", kind=ColumnKind.TIMESTAMP),
             MockColumn(name="label", kind=ColumnKind.CONSTANT, value="x"),
+            MockColumn(name="status", kind=ColumnKind.ENUM, value=["active", "deactive"]),
         ],
         seed=7,
     )

@@ -58,7 +58,10 @@ def test_deserialize_round_trip() -> None:
         "settings": {
             "row_count": 8,
             "incremental_insert_count": 1,
-            "columns": [{"name": "id", "kind": "sequence"}],
+            "columns": [
+                {"name": "id", "kind": "sequence"},
+                {"name": "status", "kind": "enum", "value": ["active", "deactive"]},
+            ],
         },
         "linked_service": {
             "id": linked_service_id,
@@ -75,3 +78,5 @@ def test_deserialize_round_trip() -> None:
     assert dataset.settings.incremental_insert_count == 1
     assert dataset.linked_service.name == "mock-ls"
     assert isinstance(dataset.settings.columns[0], MockColumn)
+    assert dataset.settings.columns[1].kind == ColumnKind.ENUM
+    assert dataset.settings.columns[1].value == ["active", "deactive"]

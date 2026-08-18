@@ -73,6 +73,31 @@ def test_incremental_row_kinds_follow_pk_and_hash() -> None:
             assert payload == snapshot_by_id[row_id]
 
 
+def test_enum_column_picks_from_provided_values() -> None:
+    """Enum cells are members of the configured values list and are deterministic."""
+    column = MockColumn(
+        name="status",
+        kind=ColumnKind.ENUM,
+        value=["active", "deactive"],
+    )
+    settings = MockDatasetSettings(columns=[MockColumn(name="id", kind=ColumnKind.SEQUENCE), column], row_count=20)
+    frame, _ops = build_batch_rows(settings=settings, batch=0)
+    assert set(frame["status"].tolist()).issubset({"active", "deactive"})
+    assert _cell(settings=settings, column=column, row_id=3, version=0) == _cell(
+        settings=settings,
+        column=column,
+        row_id=3,
+        version=0,
+    )
+
+
+def test_enum_column_requires_values() -> None:
+    """It raises ReadError when enum kind has an empty values list."""
+    column = MockColumn(name="status", kind=ColumnKind.ENUM)
+    with pytest.raises(ReadError, match="non-empty list in value"):
+        _cell(settings=MockDatasetSettings(), column=column, row_id=1, version=0)
+
+
 def test_unknown_column_kind_raises() -> None:
     """It raises ReadError when a column kind is not implemented."""
     column = MockColumn(name="weird", kind=ColumnKind.TEXT)
