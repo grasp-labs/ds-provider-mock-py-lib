@@ -6,9 +6,9 @@ Shared serializable models used by mock linked-service and dataset settings.
 
 Example:
     >>> from ds_provider_mock_py_lib.models import MockError
-    >>> spec = MockError(message="mock: cannot reach backend", code="mock_connect_failure", status_code=503)
+    >>> spec = MockError(message="mock: cannot reach backend", code="DS_LINKED_SERVICE_CONNECTION_ERROR", status_code=503)
     >>> spec.serialize()["code"]
-    'mock_connect_failure'
+    'DS_LINKED_SERVICE_CONNECTION_ERROR'
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ class MockError(Serializable):
     message: str = "mock error"
     """Human-readable error message."""
 
-    code: str = "mock_error"
+    code: str = "DS_RESOURCE_ERROR"
     """Machine-readable error code."""
 
     status_code: int | None = 500

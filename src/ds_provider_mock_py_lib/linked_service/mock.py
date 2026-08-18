@@ -62,7 +62,7 @@ class MockLinkedServiceSettings(LinkedServiceSettings):
     connect_error: MockError = field(
         default_factory=lambda: MockError(
             message="mock: cannot reach backend",
-            code="mock_connect_failure",
+            code="DS_LINKED_SERVICE_CONNECTION_ERROR",
             status_code=503,
         )
     )
@@ -78,12 +78,12 @@ class MockLinkedServiceSettings(LinkedServiceSettings):
     """Artificial delay applied to every ``connection.request()`` call."""
 
     fail_on_call: int | None = None
-    """Raise a raw backend error on the Nth ``request()`` call. ``None`` disables."""
+    """Raise ``MockBackendError`` on the Nth ``request()`` call. ``None`` disables."""
 
     request_error: MockError = field(
         default_factory=lambda: MockError(
             message="mock backend failure",
-            code="mock_backend_error",
+            code="DS_LINKED_SERVICE_MOCK_ERROR",
             status_code=500,
         )
     )
@@ -95,7 +95,7 @@ class MockLinkedServiceSettings(LinkedServiceSettings):
     drop_error: MockError = field(
         default_factory=lambda: MockError(
             message="connection dropped",
-            code="connection_dropped",
+            code="DS_LINKED_SERVICE_CONNECTION_ERROR",
             status_code=502,
         )
     )
@@ -132,7 +132,11 @@ class MockBackend:
             MockBackendError: When the connection is closed or a failure rule matches.
         """
         if self.closed:
-            raise MockBackendError("connection is closed", status_code=499, code="connection_closed")
+            raise MockBackendError(
+                "connection is closed",
+                code="DS_LINKED_SERVICE_CONNECTION_ERROR",
+                status_code=499,
+            )
 
         self.call_count += 1
         settings = self.settings
@@ -143,16 +147,16 @@ class MockBackend:
             error = settings.request_error
             raise MockBackendError(
                 f"{error.message} (call #{self.call_count}, page {page})",
-                status_code=resolve_status_code(error.status_code, 500),
                 code=error.code,
+                status_code=resolve_status_code(error.status_code, 500),
             )
 
         if settings.drop_after_calls is not None and self.call_count > settings.drop_after_calls:
             error = settings.drop_error
             raise MockBackendError(
                 f"{error.message} (after {settings.drop_after_calls} calls)",
-                status_code=resolve_status_code(error.status_code, 502),
                 code=error.code,
+                status_code=resolve_status_code(error.status_code, 502),
             )
 
     def close(self) -> None:

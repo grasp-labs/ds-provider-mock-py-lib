@@ -135,8 +135,6 @@ class MockDataset(
         )
         try:
             reader.execute(checkpoint=self.checkpoint)
-        except ResourceException:
-            raise
         except MockBackendError as exc:
             raise ReadError(
                 message=f"Failed to read mock dataset: {exc}",
@@ -144,6 +142,8 @@ class MockDataset(
                 status_code=exc.status_code,
                 details={"provider": self.type.value, "dataset": self.name},
             ) from exc
+        except ResourceException:
+            raise
         except Exception as exc:
             raise ReadError(
                 message=f"Failed to read mock dataset: {exc}",

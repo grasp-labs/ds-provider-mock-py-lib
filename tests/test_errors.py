@@ -7,6 +7,8 @@ Mock backend error helper tests.
 
 from __future__ import annotations
 
+from ds_resource_plugin_py_lib.common.resource.linked_service.errors import LinkedServiceException
+
 from ds_provider_mock_py_lib.errors import MockBackendError, resolve_status_code
 
 
@@ -21,9 +23,10 @@ def test_resolve_status_code_keeps_explicit_value() -> None:
 
 
 def test_mock_backend_error_stores_fields() -> None:
-    """It stores message, status_code, and code."""
-    error = MockBackendError("boom", status_code=502, code="dropped")
+    """It stores message, status_code, and code on a linked-service exception."""
+    error = MockBackendError("boom", code="DS_LINKED_SERVICE_CONNECTION_ERROR", status_code=502)
     assert str(error) == "boom"
     assert error.message == "boom"
     assert error.status_code == 502
-    assert error.code == "dropped"
+    assert error.code == "DS_LINKED_SERVICE_CONNECTION_ERROR"
+    assert isinstance(error, LinkedServiceException)

@@ -123,7 +123,7 @@ class MockDatasetSettings(DatasetSettings):
     raise_error: MockError = field(
         default_factory=lambda: MockError(
             message="mock read failure",
-            code="mock_read_failure",
+            code="DS_DATASET_READ_ERROR",
             status_code=500,
         )
     )
